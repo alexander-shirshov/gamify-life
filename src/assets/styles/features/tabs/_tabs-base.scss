@@ -3,14 +3,6 @@
 .tabs {
   --tab-h: 40px;
 
-  --glow-c: #04eff9f2;
-  --glow-soft: rgba(4, 239, 249, 0.35);
-  --glow: var(--color-accent-medium);
-
-  --border-c: var(--color-accent-medium);
-  --border-c-soft: rgba(4, 239, 249, 0.35);
-  --border: 1px solid var(--border-c);
-
   --compact-min-w: 248px;
   --compact-ideal-w: 58vw;
   --compact-max-w: 420px;
@@ -28,20 +20,6 @@
     position: absolute;
     inset: 0;
     pointer-events: none;
-    color: rgba(0, 142, 176, 0.7);
-    border-top: 1px solid var(--color-accent-medium);
-    border-bottom: 1px solid rgba(4, 239, 249, 0.35);
-
-    box-shadow:
-      inset 0 1px 0 var(--color-overlay-soft),
-      0 0 22px var(--color-accent-ghost-2);
-    opacity: 0.9;
-
-    @supports (corner-shape: bevel) {
-      border: var(--border);
-      border-radius: 25px 0px 15px 0px;
-      corner-shape: bevel;
-    }
   }
 
   &__list {
@@ -120,17 +98,6 @@
     padding-inline: 8px;
   }
 
-  &__slide--current {
-    color: rgba(4, 239, 249, 0.95);
-    text-shadow: 0 0 10px var(--color-accent-faint);
-  }
-
-  &__slide--prev,
-  &__slide--next {
-    color: rgba(4, 239, 249, 0.52);
-    text-shadow: 0 0 8px rgba(4, 239, 249, 0.08);
-  }
-
   &__switch {
     @include reset-button;
     @include flex-center;
@@ -140,8 +107,6 @@
     justify-self: center;
     position: relative;
 
-    color: rgba(4, 239, 249, 0.82);
-    // color: var(--color-accent-strong);
     border: none;
     border-radius: 8px;
 
@@ -156,7 +121,6 @@
       position: absolute;
       inset: -3px -4px;
       border-radius: 10px;
-      background: radial-gradient(circle at 50% 50%, rgba(4, 239, 249, 0.14), transparent 68%);
       opacity: 0;
       transform: scale(0.82);
       transition:
@@ -177,62 +141,6 @@
         opacity 140ms ease;
     }
 
-    @include hover {
-      &:not(:disabled) {
-        color: rgba(220, 250, 255, 0.98);
-        filter: drop-shadow(0 0 10px rgba(4, 239, 249, 0.18));
-
-        &::before {
-          opacity: 1;
-          transform: scale(1);
-          filter: blur(2px);
-        }
-
-        svg {
-          transform: scale(1.06);
-          filter: drop-shadow(0 0 6px rgba(4, 239, 249, 0.45))
-            drop-shadow(0 0 14px rgba(4, 239, 249, 0.18));
-        }
-      }
-    }
-
-    &:active:not(:disabled),
-    &.is-pressed:not(:disabled) {
-      color: #1afafd;
-      transform: translateY(1px) scale(0.97);
-      filter: drop-shadow(0 0 12px rgba(4, 239, 249, 0.22));
-
-      &::before {
-        opacity: 1;
-        transform: scale(1.08);
-        filter: blur(3px);
-      }
-
-      svg {
-        transform: scale(1.1);
-        filter: drop-shadow(0 0 8px rgba(4, 239, 249, 0.55))
-          drop-shadow(0 0 18px rgba(4, 239, 249, 0.24));
-      }
-    }
-
-    &:disabled {
-      color: rgba(180, 245, 255, 0.18);
-      opacity: 0.42;
-      cursor: not-allowed;
-      filter: none;
-      transform: none;
-
-      &::before {
-        opacity: 0;
-      }
-
-      svg {
-        filter: none;
-        opacity: 0.72;
-        transform: none;
-      }
-    }
-
     &--left {
       rotate: 180deg;
     }
@@ -245,21 +153,9 @@
   &__glow {
     position: absolute;
     left: 0;
-    bottom: 0px;
+    bottom: 0;
     height: 1px;
     width: 0;
-
-    background: linear-gradient(
-      to right,
-      rgba(4, 241, 249, 0),
-      var(--glow-c),
-      rgba(4, 241, 249, 0)
-    );
-
-    box-shadow:
-      0 0 8px var(--glow-soft),
-      0 0 8px var(--color-accent-faint);
-
     border-radius: 999px;
 
     transition:
@@ -273,23 +169,11 @@
     width: 2px;
     height: calc(100% - 18px);
     align-self: center;
-    background: linear-gradient(
-      to bottom,
-      var(--color-accent-glow-ghost),
-      var(--color-accent-faint),
-      var(--color-accent-glow-ghost)
-    );
-
-    opacity: 0.85;
     pointer-events: none;
-    filter: drop-shadow(0 0 6px var(--color-accent-ghost));
   }
 }
 
 .tab {
-  --c-hover: rgba(4, 239, 249, 0.65);
-  --c-active: rgba(4, 239, 249, 0.95);
-  --c-inactive: rgba(0, 180, 220, 0.35);
   --pad-x: 16px;
 
   @include reset-button;
@@ -298,7 +182,6 @@
   padding: 0 var(--pad-x);
   background: transparent;
   border: 0;
-  color: var(--c-inactive);
   font-family: 'Exo-2';
   letter-spacing: 0.06em;
   cursor: pointer;
@@ -306,17 +189,6 @@
   transition:
     color 140ms ease,
     text-shadow 140ms ease;
-
-  @include hover {
-    &:not(.tab--active) {
-      color: var(--c-hover);
-    }
-  }
-
-  &--active {
-    color: var(--c-active);
-    text-shadow: 0 0 10px var(--color-accent-faint);
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {
