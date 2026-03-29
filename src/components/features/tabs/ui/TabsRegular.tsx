@@ -8,6 +8,7 @@ type TabsRegularProps<TKey extends string> = {
   activeKey: TKey;
   glow: TabsGlowState;
   glowWidthCoef?: number;
+  showGlow?: boolean;
   listRef: React.RefObject<HTMLDivElement | null>;
   setButtonRef: (key: TKey) => (node: HTMLButtonElement | null) => void;
   onChange: (next: TKey) => void;
@@ -18,20 +19,23 @@ export function TabsRegular<TKey extends string>({
   activeKey,
   glow,
   glowWidthCoef = 1,
+  showGlow = true,
   listRef,
   setButtonRef,
   onChange,
 }: TabsRegularProps<TKey>) {
   return (
     <div className="tabs__list" role="tablist" ref={listRef}>
-      <div
-        className="tabs__glow"
-        style={{
-          transform: `translateX(${glow.x}px)`,
-          width: glow.w * glowWidthCoef,
-        }}
-        aria-hidden="true"
-      />
+      {showGlow && (
+        <div
+          className="tabs__glow"
+          style={{
+            transform: `translateX(${glow.x}px)`,
+            width: glow.w * glowWidthCoef,
+          }}
+          aria-hidden="true"
+        />
+      )}
 
       {items.map((item, index) => {
         const isActive = item.key === activeKey;

@@ -26,6 +26,10 @@ export function Tabs<TKey extends string>({
   glowWidthCoef = 0.9,
   leftSwitchIcon,
   rightSwitchIcon,
+  compactPrevAriaLabel = 'Предыдущая вкладка',
+  compactNextAriaLabel = 'Следующая вкладка',
+  showFrame = true,
+  showGlow = true,
   behavior,
 }: TabsProps<TKey>) {
   const isCompact = useMediaQuery(
@@ -34,7 +38,7 @@ export function Tabs<TKey extends string>({
 
   const { glow, listRef, setButtonRef } = useTabsGlow<TKey>({
     activeKey: value,
-    isEnabled: !isCompact,
+    isEnabled: !isCompact && showGlow,
     padding: glowPadding,
   });
 
@@ -48,6 +52,10 @@ export function Tabs<TKey extends string>({
     hasNext,
     prevTab,
     nextTab,
+    goPrev,
+    goNext,
+    goFirst,
+    goLast,
     startHoldSwitch,
     handleCompactPointerDown,
     handleCompactPointerMove,
@@ -64,6 +72,33 @@ export function Tabs<TKey extends string>({
     swipeLockRatio: behavior?.swipeLockRatio ?? DEFAULT_SWIPE_LOCK_RATIO,
   });
 
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    switch (e.key) {
+      case 'ArrowLeft':
+        e.preventDefault();
+        goPrev();
+        break;
+
+      case 'ArrowRight':
+        e.preventDefault();
+        goNext();
+        break;
+
+      case 'Home':
+        e.preventDefault();
+        goFirst();
+        break;
+
+      case 'End':
+        e.preventDefault();
+        goLast();
+        break;
+
+      default:
+        break;
+    }
+  };
+
   return (
     <div
       className={clsx(
@@ -72,8 +107,9 @@ export function Tabs<TKey extends string>({
         variant && `tabs--${variant}`,
         className
       )}
+      onKeyDown={handleKeyDown}
     >
-      <div className="tabs__frame" aria-hidden="true" />
+      {showFrame && <div className="tabs__frame" aria-hidden="true" />}
 
       {adaptive && isCompact ? (
         <TabsCompact
@@ -88,6 +124,8 @@ export function Tabs<TKey extends string>({
           currentLabel={getTabLabel(items, displayedTab)}
           nextLabel={getTabLabel(items, nextTab)}
           switchMs={behavior?.switchMs ?? DEFAULT_SWITCH_MS}
+          compactPrevAriaLabel={compactPrevAriaLabel}
+          compactNextAriaLabel={compactNextAriaLabel}
           onStartHoldSwitch={startHoldSwitch}
           onPointerDown={handleCompactPointerDown}
           onPointerMove={handleCompactPointerMove}
@@ -102,6 +140,7 @@ export function Tabs<TKey extends string>({
           activeKey={value}
           glow={glow}
           glowWidthCoef={glowWidthCoef}
+          showGlow={showGlow}
           listRef={listRef}
           setButtonRef={setButtonRef}
           onChange={onChange}

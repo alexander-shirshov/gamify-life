@@ -44,5 +44,11 @@ export type TabsProps<TKey extends string> = {
   leftSwitchIcon?: React.ReactNode;
   rightSwitchIcon?: React.ReactNode;
 
+  compactPrevAriaLabel?: string;
+  compactNextAriaLabel?: string;
+
+  showFrame?: boolean;
+  showGlow?: boolean;
+
   behavior?: TabsBehaviorConfig;
 };

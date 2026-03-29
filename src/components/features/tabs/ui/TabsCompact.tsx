@@ -20,6 +20,9 @@ type TabsCompactProps = {
 
   switchMs: number;
 
+  compactPrevAriaLabel?: string;
+  compactNextAriaLabel?: string;
+
   onStartHoldSwitch: (direction: TabsDirection) => void;
   onPointerDown: (e: React.PointerEvent<HTMLDivElement>) => void;
   onPointerMove: (e: React.PointerEvent<HTMLDivElement>) => void;
@@ -42,6 +45,8 @@ export function TabsCompact({
   currentLabel,
   nextLabel,
   switchMs,
+  compactPrevAriaLabel = 'Предыдущая вкладка',
+  compactNextAriaLabel = 'Следующая вкладка',
   onStartHoldSwitch,
   onPointerDown,
   onPointerMove,
@@ -61,7 +66,7 @@ export function TabsCompact({
           phase === 'settling' && 'is-busy'
         )}
         disabled={!hasPrev}
-        aria-label="Предыдущая вкладка"
+        aria-label={compactPrevAriaLabel}
         aria-disabled={!hasPrev || phase === 'settling'}
         onPointerDown={() => onStartHoldSwitch('left')}
       >
@@ -105,7 +110,7 @@ export function TabsCompact({
           phase === 'settling' && 'is-busy'
         )}
         disabled={!hasNext}
-        aria-label="Следующая вкладка"
+        aria-label={compactNextAriaLabel}
         aria-disabled={!hasNext || phase === 'settling'}
         onPointerDown={() => onStartHoldSwitch('right')}
       >

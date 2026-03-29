@@ -11,7 +11,6 @@ type UseTabsGlowParams<TKey extends string> = {
 type UseTabsGlowReturn<TKey extends string> = {
   glow: TabsGlowState;
   listRef: React.RefObject<HTMLDivElement | null>;
-  btnRefs: React.RefObject<Record<TKey, HTMLButtonElement | null>>;
   setButtonRef: (key: TKey) => (node: HTMLButtonElement | null) => void;
 };
 
@@ -77,7 +76,6 @@ export function useTabsGlow<TKey extends string>({
   return {
     glow,
     listRef,
-    btnRefs,
     setButtonRef,
   };
 }

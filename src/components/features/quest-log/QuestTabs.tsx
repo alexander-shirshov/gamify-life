@@ -29,6 +29,8 @@ export function QuestTabs({ value, onChange }: Props) {
       variant="sci-fi"
       glowPadding={10}
       glowWidthCoef={0.9}
+      showGlow={true}
+      showFrame={true}
       leftSwitchIcon={<ChevronDoubleArrow />}
       rightSwitchIcon={<ChevronDoubleArrow />}
       behavior={{

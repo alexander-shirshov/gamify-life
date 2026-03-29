@@ -27,6 +27,12 @@ type UseTabsNavigationReturn<TKey extends string> = {
   prevTab: TKey | null;
   nextTab: TKey | null;
 
+  goToTab: (next: TKey) => void;
+  goPrev: () => void;
+  goNext: () => void;
+  goFirst: () => void;
+  goLast: () => void;
+
   startHoldSwitch: (direction: TabsDirection) => void;
 
   handleCompactPointerDown: (e: React.PointerEvent<HTMLDivElement>) => void;
@@ -108,6 +114,50 @@ export function useTabsNavigation<TKey extends string>({
       settleTimeoutRef.current = null;
     }
   }, []);
+
+  const goToTab = useCallback(
+    (next: TKey): void => {
+      if (phaseRef.current === 'settling') return;
+      if (displayedTabRef.current === next) return;
+
+      displayedTabRef.current = next;
+      phaseRef.current = 'idle';
+
+      clearSettleTimer();
+      setDisplayedTab(next);
+      setPhase('idle');
+      setDragX(0);
+      setSettleDirection(null);
+      onChange(next);
+    },
+    [clearSettleTimer, onChange]
+  );
+
+  const goPrev = useCallback((): void => {
+    const current = displayedTabRef.current;
+    const prev = getAdjacentTab(items, current, 'left');
+    if (!prev) return;
+    goToTab(prev);
+  }, [goToTab, items]);
+
+  const goNext = useCallback((): void => {
+    const current = displayedTabRef.current;
+    const next = getAdjacentTab(items, current, 'right');
+    if (!next) return;
+    goToTab(next);
+  }, [goToTab, items]);
+
+  const goFirst = useCallback((): void => {
+    const first = items[0]?.key;
+    if (!first) return;
+    goToTab(first);
+  }, [goToTab, items]);
+
+  const goLast = useCallback((): void => {
+    const last = items[items.length - 1]?.key;
+    if (!last) return;
+    goToTab(last);
+  }, [goToTab, items]);
 
   const stopHoldSwitch = useCallback((): void => {
     clearHoldTimers();
@@ -385,6 +435,11 @@ export function useTabsNavigation<TKey extends string>({
     hasNext,
     prevTab,
     nextTab,
+    goToTab,
+    goPrev,
+    goNext,
+    goFirst,
+    goLast,
     startHoldSwitch,
     handleCompactPointerDown,
     handleCompactPointerMove,
