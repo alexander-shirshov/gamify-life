@@ -35,3 +35,15 @@ Designed as a productivity tool with game-inspired mechanics such as difficulty 
 ## Tech stack
 
 React • TypeScript • SCSS • Vite
+
+## UI architecture notes
+
+The project gradually extracts reusable UI features from screen-specific implementations.
+
+Current reusable feature examples:
+
+- adaptive tabs system (`src/components/features/tabs`)
+
+Related documentation:
+
+- `docs/features/tabs/Tabs.md`
