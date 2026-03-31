@@ -6,7 +6,7 @@ import { Tabs } from '@/components/features/tabs';
 
 export type TabKey = 'active' | 'daily' | 'done' | 'archive';
 
-const TABS: TabsItem<TabKey>[] = [
+export const TABS: TabsItem<TabKey>[] = [
   { key: 'active', label: 'АКТИВНЫЕ' },
   { key: 'daily', label: 'РЕГУЛЯРНЫЕ' },
   { key: 'done', label: 'ЗАВЕРШЕННЫЕ' },

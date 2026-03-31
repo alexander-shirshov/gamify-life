@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useMemo, useState, useEffect } from 'react';
 
 import {
   type CreateTaskData,
@@ -6,11 +6,15 @@ import {
   type TaskCategory,
   type UpdateTaskData,
 } from '@/types/task';
+
+import { TABS } from '@/components/features/quest-log/QuestTabs';
+
 import { QuestBoard } from '@/components/features/quest-log/QuestBoard';
 import QuestFrame from '@/components/features/quest-log/QuestFrame';
 import { QuestTabs, type TabKey } from '@/components/features/quest-log/QuestTabs';
 import { QuestModal } from '@/components/features/quest-modal/QuestModal';
 import { useTasks } from '@/hooks/useTasks';
+import { useLocalStorage } from '@/hooks/useLocalStorage';
 
 type ModalState =
   | { mode: 'view'; questId: string }
@@ -27,7 +31,7 @@ const predicateByTab = {
 
 export function QuestLog() {
   const { tasks, createTask, markCompleted, markIncomplete, updateTask } = useTasks();
-  const [tab, setTab] = useState<TabKey>('active');
+  const [tab, setTab] = useLocalStorage<TabKey>('quest-tabs-active', 'active');
   const [modal, setModal] = useState<ModalState>(null);
 
   const handleCompleteToggle = useCallback(
@@ -96,6 +100,13 @@ export function QuestLog() {
     }
     return null;
   }, [modal, tasks]);
+
+  useEffect(() => {
+    const isValid = TABS.some(t => t.key === tab);
+    if (!isValid) {
+      setTab('active');
+    }
+  }, [tab]);
 
   return (
     <>
