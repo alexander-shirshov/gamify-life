@@ -45,11 +45,12 @@ import { getPointsByCategory } from '../types/task';
 import { useEffect } from 'react';
 import { validate, setUpdates } from '../utils/tasks/tasksUtils';
 import { normalizeTasks } from '../utils/tasks/normalizeTasks';
+import { STORAGE_KEYS } from '@/config/localStorageKeys';
 
 export function useTasks() {
-  const [tasks, setTasks] = useLocalStorage<Task[]>('tasks', [], normalizeTasks);
+  const [tasks, setTasks] = useLocalStorage<Task[]>(STORAGE_KEYS.tasks, [], normalizeTasks);
   // const [filtered, setFiltered] = useState();
-  const [stats, setStats] = useLocalStorage<TaskStats>('task-stats', {
+  const [stats, setStats] = useLocalStorage<TaskStats>(STORAGE_KEYS.taskStats, {
     totalPoints: 0,
     dailyPoints: 0,
     lastReset: new Date().toISOString().split('T')[0], // Дата последнего сброса daily points

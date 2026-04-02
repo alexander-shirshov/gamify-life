@@ -1,4 +1,4 @@
-type Breakpoint = 'desktop' | 'tablet' | 'mobile' | 'mobile_s';
+export type Breakpoint = 'desktop' | 'tablet' | 'mobile' | 'mobile_s';
 
 export const BREAKPOINTS = {
   desktop: 1280,

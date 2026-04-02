@@ -14,7 +14,8 @@ import QuestFrame from '@/components/features/quest-log/QuestFrame';
 import { QuestTabs, type TabKey } from '@/components/features/quest-log/QuestTabs';
 import { QuestModal } from '@/components/features/quest-modal/QuestModal';
 import { useTasks } from '@/hooks/useTasks';
-import { useLocalStorage } from '@/hooks/useLocalStorage';
+// import { useAvailableQuestViewModes, useQuestBoardViewMode } from './hooks';
+import { useUIState } from '@/context/UIStateContext';
 
 type ModalState =
   | { mode: 'view'; questId: string }
@@ -31,8 +32,13 @@ const predicateByTab = {
 
 export function QuestLog() {
   const { tasks, createTask, markCompleted, markIncomplete, updateTask } = useTasks();
-  const [tab, setTab] = useLocalStorage<TabKey>('quest-tabs-active', 'active');
+  const { state, setActiveQuestTab } = useUIState();
   const [modal, setModal] = useState<ModalState>(null);
+
+  // const { effectiveViewMode, preferredViewMode, availableViewModes, setPreferredViewMode } =
+  //   useQuestBoardViewMode();
+
+  const { activeQuestTab } = state;
 
   const handleCompleteToggle = useCallback(
     (questId: string): void => {
@@ -91,8 +97,8 @@ export function QuestLog() {
   const handleOpenQuest = useCallback((id: string) => setModal({ mode: 'view', questId: id }), []);
 
   const visibleQuests = useMemo(() => {
-    return tasks.filter(predicateByTab[tab]);
-  }, [tab, tasks]);
+    return tasks.filter(predicateByTab[activeQuestTab]);
+  }, [activeQuestTab, tasks]);
 
   const questForModal = useMemo(() => {
     if (modal && modal?.mode !== 'create') {
@@ -101,12 +107,13 @@ export function QuestLog() {
     return null;
   }, [modal, tasks]);
 
+  //унести в storage normalization
   useEffect(() => {
-    const isValid = TABS.some(t => t.key === tab);
+    const isValid = TABS.some(t => t.key === activeQuestTab);
     if (!isValid) {
-      setTab('active');
+      setActiveQuestTab('active');
     }
-  }, [tab]);
+  }, [activeQuestTab, setActiveQuestTab]);
 
   return (
     <>
@@ -125,7 +132,7 @@ export function QuestLog() {
                   НОВАЯ МИССИЯ
                 </button>
               </header>
-              <QuestTabs value={tab} onChange={setTab} />
+              <QuestTabs value={activeQuestTab} onChange={setActiveQuestTab} />
               <div className="quest-log__tabsDivider" />
               <div className="quest-log__body">
                 <QuestBoard
