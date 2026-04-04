@@ -14,7 +14,7 @@ import QuestFrame from '@/components/features/quest-log/QuestFrame';
 import { QuestTabs, type TabKey } from '@/components/features/quest-log/QuestTabs';
 import { QuestModal } from '@/components/features/quest-modal/QuestModal';
 import { useTasks } from '@/hooks/useTasks';
-// import { useAvailableQuestViewModes, useQuestBoardViewMode } from './hooks';
+import { useQuestBoardViewMode } from './hooks';
 import { useUIState } from '@/context/UIStateContext';
 
 type ModalState =
@@ -35,8 +35,7 @@ export function QuestLog() {
   const { state, setActiveQuestTab } = useUIState();
   const [modal, setModal] = useState<ModalState>(null);
 
-  // const { effectiveViewMode, preferredViewMode, availableViewModes, setPreferredViewMode } =
-  //   useQuestBoardViewMode();
+  const { effectiveViewMode } = useQuestBoardViewMode();
 
   const { activeQuestTab } = state;
 
@@ -137,6 +136,7 @@ export function QuestLog() {
               <div className="quest-log__body">
                 <QuestBoard
                   quests={visibleQuests}
+                  viewMode={effectiveViewMode}
                   onOpenQuest={handleOpenQuest}
                   onToggleCompleteQuest={handleCompleteToggle}
                   onCreateQuest={handleOpenCreateWithCat}

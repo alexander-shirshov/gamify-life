@@ -1,10 +1,13 @@
 import { useMemo } from 'react';
 import { type Task } from '@/types/task';
 import { type TaskCategory } from '@/types/task';
-import QuestColumn from './QuestColumn';
+import { buildQuestBoardViewData, type QuestBoardViewMode } from './model';
+import { QuestBoardGroupedView } from './QuestBoardGroupedView';
+import { QuestBoardListView } from './QuestBoardListView';
 
 type QuestBoardProps = {
   quests: Task[];
+  viewMode: QuestBoardViewMode;
   onOpenQuest: (id: string) => void;
   onToggleCompleteQuest: (questId: string) => void;
   onCreateQuest?: (category: TaskCategory) => void;
@@ -12,42 +15,30 @@ type QuestBoardProps = {
 
 export function QuestBoard({
   quests,
+  viewMode,
+  onCreateQuest,
   onOpenQuest,
   onToggleCompleteQuest,
-  onCreateQuest,
 }: QuestBoardProps) {
-  const grouped = useMemo(() => {
-    const by: Record<TaskCategory, Task[]> = { easy: [], medium: [], hard: [] };
-    for (const q of quests) by[q.category].push(q);
-    return by;
-  }, [quests]);
+  const viewData = useMemo(() => {
+    return buildQuestBoardViewData(quests, viewMode);
+  }, [quests, viewMode]);
 
+  if (viewData.type === 'list') {
+    return (
+      <QuestBoardListView
+        quests={viewData.quests}
+        onOpenQuest={onOpenQuest}
+        onToggleCompleteQuest={onToggleCompleteQuest}
+      />
+    );
+  }
   return (
-    <>
-      <section className="quest-board" aria-label="Доска заданий">
-        <QuestColumn
-          category="easy"
-          quests={grouped.easy}
-          onOpenQuest={onOpenQuest}
-          onToggleCompleteQuest={onToggleCompleteQuest}
-          onCreateQuest={onCreateQuest}
-        />
-        <QuestColumn
-          category="medium"
-          quests={grouped.medium}
-          onOpenQuest={onOpenQuest}
-          onToggleCompleteQuest={onToggleCompleteQuest}
-          onCreateQuest={onCreateQuest}
-        />
-
-        <QuestColumn
-          category="hard"
-          quests={grouped.hard}
-          onOpenQuest={onOpenQuest}
-          onToggleCompleteQuest={onToggleCompleteQuest}
-          onCreateQuest={onCreateQuest}
-        />
-      </section>
-    </>
+    <QuestBoardGroupedView
+      sections={viewData.sections}
+      onOpenQuest={onOpenQuest}
+      onToggleCompleteQuest={onToggleCompleteQuest}
+      onCreateQuest={onCreateQuest}
+    />
   );
 }

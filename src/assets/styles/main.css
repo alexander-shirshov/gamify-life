@@ -1863,13 +1863,23 @@ svg * {
 }
 
 .quest-board {
+  --columns: 3;
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(var(--columns), 1fr);
   gap: 18px;
   margin-top: 14px;
   flex: 1;
   height: 100%;
   min-height: 0;
+}
+.quest-board--1col {
+  --columns: 1;
+}
+.quest-board--2col {
+  --columns: 2;
+}
+.quest-board--3col {
+  --columns: 3;
 }
 
 .quest-col {
