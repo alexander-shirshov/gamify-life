@@ -1,6 +1,8 @@
 import type { TaskCategory, Task } from '@/types/task';
 
-export type QuestBoardViewMode = 'grouped' | 'list';
+export const QUEST_BOARD_VIEW_MODES = ['grouped', 'list'] as const;
+
+export type QuestBoardViewMode = (typeof QUEST_BOARD_VIEW_MODES)[number];
 // export type QuestGrouping = 'category' | 'deadline' | 'none';
 
 export type QuestBoardViewModesByScreen = {

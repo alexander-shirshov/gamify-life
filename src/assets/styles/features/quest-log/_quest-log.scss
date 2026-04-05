@@ -35,13 +35,23 @@
     height: 100%;
     display: flex;
     flex-direction: column;
+    min-height: 0;
+  }
+
+  &__shell {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
+    min-height: 0;
   }
 
   &__body {
-    flex: 1; //занимает всё оставшееся место
-    display: flex; // чтобы QuestBoard мог растянуться
+    position: relative;
+    flex: 1 1 auto;
+    display: flex;
     flex-direction: column;
     min-height: 0;
+    overflow: hidden;
   }
   &__header {
     position: relative;

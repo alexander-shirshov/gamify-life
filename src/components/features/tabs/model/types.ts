@@ -2,6 +2,11 @@ export type TabsDirection = 'left' | 'right';
 export type TabsPhase = 'idle' | 'dragging' | 'settling';
 export type TabsVariant = 'sci-fi';
 
+export const TAB_KEYS = ['active', 'daily', 'done', 'archive'] as const;
+
+// 2. Выводим тип из массива (чтобы не дублировать)
+export type TabKey = (typeof TAB_KEYS)[number];
+
 export type TabsItem<TKey extends string> = {
   key: TKey;
   label: string;

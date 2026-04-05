@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState, useEffect } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import {
   type CreateTaskData,
@@ -6,13 +6,15 @@ import {
   type TaskCategory,
   type UpdateTaskData,
 } from '@/types/task';
-
-import { TABS } from '@/components/features/quest-log/QuestTabs';
+import { type TabKey } from '@/components/features/tabs';
 
 import { QuestBoard } from '@/components/features/quest-log/QuestBoard';
 import QuestFrame from '@/components/features/quest-log/QuestFrame';
-import { QuestTabs, type TabKey } from '@/components/features/quest-log/QuestTabs';
+import { QuestTabs } from '@/components/features/quest-log/QuestTabs';
 import { QuestModal } from '@/components/features/quest-modal/QuestModal';
+import { QuestEdgeControls } from './QuestEdgeControls';
+import { QuestDisplayDrawer } from './QuestDisplayDrawer';
+
 import { useTasks } from '@/hooks/useTasks';
 import { useQuestBoardViewMode } from './hooks';
 import { useUIState } from '@/context/UIStateContext';
@@ -23,21 +25,39 @@ type ModalState =
   | { mode: 'create'; initialCategory?: TaskCategory }
   | null;
 
-const predicateByTab = {
-  active: (task: Task) => !task.completed,
-  done: (task: Task) => task.completed,
-  daily: (task: Task) => task.title === 'DAILY', //ЗАГЛУШКА ПОД ЛОГИКУ
-  archive: (task: Task) => task.title === 'ARCHIVED', //ЗАГЛУШКА ПОД ЛОГИКУ
-} satisfies Record<TabKey, (task: Task) => boolean>;
+const predicateByTab: Record<TabKey, (task: Task) => boolean> = {
+  active: task => !task.completed,
+  done: task => task.completed,
+  daily: task => task.title === 'DAILY',
+  archive: task => task.title === 'ARCHIVED',
+};
 
 export function QuestLog() {
+  const [isControlsOpen, setIsControlsOpen] = useState(false);
+  const [isFullscreen, setIsFullscreen] = useState(false);
+
   const { tasks, createTask, markCompleted, markIncomplete, updateTask } = useTasks();
   const { state, setActiveQuestTab } = useUIState();
   const [modal, setModal] = useState<ModalState>(null);
 
-  const { effectiveViewMode } = useQuestBoardViewMode();
+  const { preferredViewMode, effectiveViewMode, availableViewModes, setPreferredViewMode } =
+    useQuestBoardViewMode();
+
+  const canOpenDisplayDrawer = availableViewModes.length > 1;
 
   const { activeQuestTab } = state;
+
+  const handleToggleControls = useCallback(() => {
+    setIsControlsOpen(prev => !prev);
+  }, []);
+
+  const handleCloseControls = useCallback(() => {
+    setIsControlsOpen(false);
+  }, []);
+
+  const handleToggleFullscreen = useCallback(() => {
+    setIsFullscreen(prev => !prev);
+  }, []);
 
   const handleCompleteToggle = useCallback(
     (questId: string): void => {
@@ -106,13 +126,11 @@ export function QuestLog() {
     return null;
   }, [modal, tasks]);
 
-  //унести в storage normalization
   useEffect(() => {
-    const isValid = TABS.some(t => t.key === activeQuestTab);
-    if (!isValid) {
-      setActiveQuestTab('active');
+    if (isControlsOpen && !canOpenDisplayDrawer) {
+      handleCloseControls();
     }
-  }, [activeQuestTab, setActiveQuestTab]);
+  }, [isControlsOpen, canOpenDisplayDrawer, handleCloseControls]);
 
   return (
     <>
@@ -121,26 +139,45 @@ export function QuestLog() {
         <section className="quest-log__container container">
           <QuestFrame className="quest-log__frame">
             <div className="quest-log__content">
-              <header className="quest-log__header">
-                <h1 className="quest-log__title">QUEST LOG</h1>
-                <button
-                  className="qbtn qbtn--primary qbtn--cta"
-                  type="button"
-                  onClick={handleOpenCreate}
-                >
-                  НОВАЯ МИССИЯ
-                </button>
-              </header>
-              <QuestTabs value={activeQuestTab} onChange={setActiveQuestTab} />
-              <div className="quest-log__tabsDivider" />
-              <div className="quest-log__body">
-                <QuestBoard
-                  quests={visibleQuests}
-                  viewMode={effectiveViewMode}
-                  onOpenQuest={handleOpenQuest}
-                  onToggleCompleteQuest={handleCompleteToggle}
-                  onCreateQuest={handleOpenCreateWithCat}
+              <div className="quest-log__shell">
+                <QuestEdgeControls
+                  isControlsOpen={isControlsOpen}
+                  isFullscreen={isFullscreen}
+                  needDrawer={canOpenDisplayDrawer}
+                  onToggleControls={handleToggleControls}
+                  onToggleFullscreen={handleToggleFullscreen}
                 />
+                {canOpenDisplayDrawer && (
+                  <QuestDisplayDrawer
+                    isOpen={isControlsOpen}
+                    availableViewModes={availableViewModes}
+                    preferredViewMode={preferredViewMode}
+                    onClose={handleCloseControls}
+                    onChangeViewMode={setPreferredViewMode}
+                  />
+                )}
+
+                <header className="quest-log__header">
+                  <h1 className="quest-log__title">QUEST LOG</h1>
+                  <button
+                    className="qbtn qbtn--primary qbtn--cta"
+                    type="button"
+                    onClick={handleOpenCreate}
+                  >
+                    НОВАЯ МИССИЯ
+                  </button>
+                </header>
+                <QuestTabs value={activeQuestTab} onChange={setActiveQuestTab} />
+                <div className="quest-log__tabsDivider" />
+                <div className="quest-log__body">
+                  <QuestBoard
+                    quests={visibleQuests}
+                    viewMode={effectiveViewMode}
+                    onOpenQuest={handleOpenQuest}
+                    onToggleCompleteQuest={handleCompleteToggle}
+                    onCreateQuest={handleOpenCreateWithCat}
+                  />
+                </div>
               </div>
             </div>
           </QuestFrame>

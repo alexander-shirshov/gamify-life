@@ -2,9 +2,8 @@ import { BREAKPOINTS } from '@/config/windowBreakpoints';
 import ChevronDoubleArrow from '@/assets/icons/chevron-double-right.svg?react';
 
 import type { TabsItem } from '@/components/features/tabs';
+import type { TabKey } from '@/components/features/tabs';
 import { Tabs } from '@/components/features/tabs';
-
-export type TabKey = 'active' | 'daily' | 'done' | 'archive';
 
 export const TABS: TabsItem<TabKey>[] = [
   { key: 'active', label: 'АКТИВНЫЕ' },

@@ -1,4 +1,4 @@
-import type { TabKey } from '@/components/features/quest-log/QuestTabs';
+import type { TabKey } from '@/components/features/tabs';
 import type { QuestBoardViewMode } from '@/components/features/quest-log/model/types';
 
 export type UIState = {
