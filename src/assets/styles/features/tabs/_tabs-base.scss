@@ -9,6 +9,9 @@
 
   position: relative;
   width: 100%;
+  justify-self: center;
+
+  @include fluid-text(18, 12);
 
   &--compact {
     width: clamp(var(--compact-min-w), var(--compact-ideal-w), var(--compact-max-w));
@@ -170,6 +173,10 @@
     height: calc(100% - 18px);
     align-self: center;
     pointer-events: none;
+  }
+
+  @include mobile {
+    --tab-h: 30px;
   }
 }
 

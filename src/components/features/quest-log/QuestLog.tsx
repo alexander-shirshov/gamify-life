@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
+import clsx from 'clsx';
 
 import {
   type CreateTaskData,
@@ -135,7 +136,7 @@ export function QuestLog() {
   return (
     <>
       {/* Header */}
-      <main className="quest-log">
+      <main className={clsx('quest-log', { 'quest-log--fullscreen': isFullscreen })}>
         <section className="quest-log__container container">
           <QuestFrame className="quest-log__frame">
             <div className="quest-log__content">
@@ -156,19 +157,21 @@ export function QuestLog() {
                     onChangeViewMode={setPreferredViewMode}
                   />
                 )}
+                <div className="quest-log__topbar">
+                  <header className="quest-log__header">
+                    <h1 className="quest-log__title">QUEST LOG</h1>
+                    <button
+                      className="qbtn qbtn--primary qbtn--cta"
+                      type="button"
+                      onClick={handleOpenCreate}
+                    >
+                      НОВАЯ МИССИЯ
+                    </button>
+                  </header>
+                  <QuestTabs value={activeQuestTab} onChange={setActiveQuestTab} />
+                  <div className="quest-log__tabsDivider" />
+                </div>
 
-                <header className="quest-log__header">
-                  <h1 className="quest-log__title">QUEST LOG</h1>
-                  <button
-                    className="qbtn qbtn--primary qbtn--cta"
-                    type="button"
-                    onClick={handleOpenCreate}
-                  >
-                    НОВАЯ МИССИЯ
-                  </button>
-                </header>
-                <QuestTabs value={activeQuestTab} onChange={setActiveQuestTab} />
-                <div className="quest-log__tabsDivider" />
                 <div className="quest-log__body">
                   <QuestBoard
                     quests={visibleQuests}

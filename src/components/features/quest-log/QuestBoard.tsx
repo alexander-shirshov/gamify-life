@@ -8,6 +8,7 @@ import { QuestBoardListView } from './QuestBoardListView';
 type QuestBoardProps = {
   quests: Task[];
   viewMode: QuestBoardViewMode;
+  isFullScreen?: boolean;
   onOpenQuest: (id: string) => void;
   onToggleCompleteQuest: (questId: string) => void;
   onCreateQuest?: (category: TaskCategory) => void;

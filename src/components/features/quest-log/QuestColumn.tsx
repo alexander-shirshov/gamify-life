@@ -9,7 +9,7 @@ type BaseQuestColumnProps = {
   quests: Task[];
   onOpenQuest: (id: string) => void;
   onToggleCompleteQuest: (questId: string) => void;
-  onCreateQuest?: (category: TaskCategory) => void;
+  onCreateClick?: () => void;
 };
 
 // Вариант с category
@@ -39,7 +39,7 @@ export default function QuestColumn({
   quests,
   onOpenQuest,
   onToggleCompleteQuest,
-  onCreateQuest,
+  onCreateClick,
 }: QuestColumnProps) {
   const colRef = useRef<HTMLDivElement | null>(null);
   useScrollFade(colRef, { offset: 60 }, undefined, [quests.length]);
@@ -50,11 +50,11 @@ export default function QuestColumn({
         <header className="quest-col__header">
           {headerText}
 
-          {category && onCreateQuest && (
+          {onCreateClick && (
             <button
               className="quest-col__add"
               type="button"
-              onClick={() => onCreateQuest(category)}
+              onClick={onCreateClick}
               aria-label="Добавить миссию"
               title="Новая миссия"
             >

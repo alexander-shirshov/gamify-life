@@ -27,7 +27,7 @@ export function QuestBoardGroupedView({
           quests={section.quests}
           onOpenQuest={onOpenQuest}
           onToggleCompleteQuest={onToggleCompleteQuest}
-          onCreateQuest={onCreateQuest}
+          onCreateClick={onCreateQuest ? () => onCreateQuest(section.category) : undefined}
         />
       ))}
     </section>

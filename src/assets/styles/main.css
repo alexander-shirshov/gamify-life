@@ -3080,6 +3080,8 @@ svg * {
   --compact-max-w: 420px;
   position: relative;
   width: 100%;
+  justify-self: center;
+  font-size: clamp(12px, 1.25vw, 18px);
 }
 .tabs--compact {
   width: clamp(var(--compact-min-w), var(--compact-ideal-w), var(--compact-max-w));
@@ -3209,6 +3211,11 @@ svg * {
   height: calc(100% - 18px);
   align-self: center;
   pointer-events: none;
+}
+@media (max-width: 767px) {
+  .tabs {
+    --tab-h: 30px;
+  }
 }
 
 .tab {
@@ -3396,6 +3403,34 @@ svg * {
   user-select: none;
   width: 100%;
 }
+.quest-log--fullscreen .quest-log__content {
+  padding-inline: 50px;
+}
+@media (max-width: 767px) {
+  .quest-log--fullscreen .quest-log__content {
+    padding-inline: 45px;
+  }
+}
+@media (max-width: 480px) {
+  .quest-log--fullscreen .quest-log__content {
+    padding-inline: 35px;
+  }
+}
+.quest-log--fullscreen .quest-log__topbar {
+  max-height: 0;
+  opacity: 0;
+  transform: translateY(-12px);
+  margin-bottom: -4px;
+  pointer-events: none;
+}
+.quest-log__topbar {
+  max-height: 220px;
+  overflow: clip;
+  opacity: 1;
+  transform: translateY(0);
+  margin-bottom: 0;
+  transition: max-height 260ms ease, opacity 180ms ease, transform 220ms ease, margin-bottom 260ms ease;
+}
 .quest-log__container {
   position: relative;
   height: 80vh;
@@ -3424,6 +3459,7 @@ svg * {
   display: flex;
   flex-direction: column;
   min-height: 0;
+  transition: padding-inline 220ms ease, padding-top 220ms ease, padding-bottom 220ms ease;
 }
 .quest-log__shell {
   display: flex;
