@@ -1,11 +1,6 @@
 @use 'media' as *;
 @use './tokens/colors' as *;
 
-$fonts: (
-  head: 'Oxanium',
-  main: 'Exo-2',
-);
-
 :root {
   //COMMON COLORS
   --color-bg: #{$surface-bg};
@@ -80,10 +75,23 @@ $fonts: (
   --filter-stepper-active: drop-shadow(0 0 10px rgba(4, 239, 249, 0.28));
 
   //SCALES
+  --container-max-width: 1440px;
   --container-width: 70vw;
-  --container-padding-x: 100px;
+  --container-padding-x: 50px;
   --section-padding-y: 70px;
 
   //TRANSTIONS
   --transition: 0.25s ease-out;
+
+  //ADOPTIVE
+  @include desktop {
+    --container-padding-x: 50px;
+    --section-padding-y: 60px;
+  }
+
+  @include mobile {
+    --container-width: 100%;
+    --container-padding-x: 20px;
+    --section-padding-y: 40px;
+  }
 }

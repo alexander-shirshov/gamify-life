@@ -1,17 +1,10 @@
 @use './base/core' as *;
 
 .container {
-  max-width: calc(var(--container-width) + var(--container-padding-x) * 2);
+  width: 100%;
+  max-width: calc(var(--container-max-width) + var(--container-padding-x) * 2);
   margin-inline: auto;
   padding-inline: var(--container-padding-x);
-
-  @include desktop {
-    --container-padding-x: 50px;
-  }
-
-  @include mobile {
-    --container-padding-x: 20px;
-  }
 }
 
 .visually-hidden {
