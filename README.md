@@ -36,6 +36,22 @@ Designed as a productivity tool with game-inspired mechanics such as difficulty 
 
 React • TypeScript • SCSS • Vite
 
+## Development and styles
+
+```sh
+npm install
+npm run dev
+```
+
+Vite compiles SCSS through the existing `sass-embedded` dependency and updates styles during development. No separate Sass watcher is needed. `npm run build` produces the production assets in `dist/`.
+
+- `src/main.tsx` imports `src/assets/styles/main.scss` directly.
+- `main.scss` loads global, component and feature styles with `@use`; their order preserves the CSS cascade.
+- SCSS filenames use kebab-case without a leading underscore. Add new styles to `main.scss` with `@use`.
+- Shared Sass variables, functions and mixins are exposed through `base/core.scss` with `@forward` and consumed with `@use`.
+- Styles use global class names. Sass modules (`@use`/`@forward`) are separate from CSS Modules (`*.module.scss`), which scope class names.
+- Generated CSS and source maps belong in the build output, not alongside SCSS sources.
+
 ## UI architecture notes
 
 The project gradually extracts reusable UI features from screen-specific implementations.

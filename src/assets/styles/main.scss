@@ -1,1 +1,29 @@
-@use 'index';
+// Base styles. Keep this order to preserve the cascade.
+@use './base/core';
+@use './base/normalize';
+@use './utils';
+@use './fonts';
+@use './base/globals';
+
+// Shared components.
+@use './components/qbutton';
+@use './components/qchev';
+@use './components/briefing';
+@use './components/qactions';
+@use './components/quest-deadline-stepper';
+@use './components/quest-deadline';
+
+// Quest log.
+@use './features/quest-log/quest-button';
+@use './features/quest-log/quest-frame-composite';
+@use './features/quest-log/quest-board';
+@use './features/quest-log/quest-board-controls';
+@use './features/quest-log/quest-card';
+
+// Modal and tabs.
+@use './features/modal/quest-modal';
+@use './features/tabs/tabs-base';
+@use './features/tabs/tabs-sci-fi';
+
+// Screen layout.
+@use './features/quest-log/quest-log';

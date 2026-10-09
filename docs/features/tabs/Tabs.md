@@ -71,8 +71,8 @@ src/components/features/tabs/
 
 ```
 src/assets/styles/features/tabs/
-  _tabs-base.scss
-  _tabs-sci-fi.scss
+  tabs-base.scss
+  tabs-sci-fi.scss
 ```
 
 ## Public API
@@ -346,8 +346,8 @@ This works through the reusable `Tabs` entry component.
 
 Tabs styles are split into:
 
-- src/assets/styles/features/tabs/\_tabs-base.scss
-- src/assets/styles/features/tabs/\_tabs-sci-fi.scss
+- src/assets/styles/features/tabs/tabs-base.scss
+- src/assets/styles/features/tabs/tabs-sci-fi.scss
 
 ### Base styles
 
@@ -462,8 +462,8 @@ To reuse tabs in another project, copy:
 ### Styles
 
 ```
-src/assets/styles/features/tabs/_tabs-base.scss
-src/assets/styles/features/tabs/_tabs-sci-fi.scss
+src/assets/styles/features/tabs/tabs-base.scss
+src/assets/styles/features/tabs/tabs-sci-fi.scss
 ```
 
 ### Required dependencies / assumptions
