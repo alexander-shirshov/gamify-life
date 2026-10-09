@@ -80,9 +80,12 @@ $fonts: (
 
   --filter-stepper-active: drop-shadow(0 0 10px rgba(4, 239, 249, 0.28));
 
-  //SCALES
-  --container-width: 70vw;
-  --container-padding-x: 100px;
+  // LAYOUT
+  --container-max-width: 1680px;
+
+  --page-gutter-x: clamp(20px, 3vw, 56px);
+  --page-gutter-y: clamp(12px, 2dvh, 28px);
+
   --section-padding-y: 70px;
 
   //TRANSTIONS

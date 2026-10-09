@@ -5,6 +5,9 @@
 @use './fonts';
 @use './base/globals';
 
+// layout
+@use './layout/app-screen';
+
 // Shared components.
 @use './components/qbutton';
 @use './components/qchev';

@@ -4,8 +4,9 @@ import { UIStateProvider } from '@/context/UIStateContext';
 export default function App() {
   return (
     <UIStateProvider>
-      <div className="app-screen"></div>
-      <QuestLog />
+      <div className="app-screen">
+        <QuestLog />
+      </div>
     </UIStateProvider>
   );
 }

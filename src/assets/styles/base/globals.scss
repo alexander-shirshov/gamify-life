@@ -1,5 +1,6 @@
 @use 'mixins' as *;
 @use 'variables' as *;
+
 body {
   @include fluid-text(18, 16);
   font-family: 'Exo-2';
@@ -7,6 +8,10 @@ body {
   line-height: 1.28;
   color: var(--color-font-main);
   background-color: var(--color-bg);
+}
+
+#root {
+  min-height: 100dvh;
 }
 
 ::selection {
